@@ -17,6 +17,9 @@ const sequelize = new Sequelize(DBURL)
 const User = usersModel(sequelize, Sequelize)
 const Operation = operationsModel(sequelize, Sequelize)
 
+User.hasMany(Operation, { foreignKey: 'userId' })
+Operation.belongsTo(User, { foreignKey: 'userId' })
+
 sequelize.sync()
   .then(() => {
     console.log('Tables created successfully')

@@ -1,4 +1,5 @@
 const { User } = require('../lib/db')
+const { Operation } = require('../lib/db')
 
 const encrypt = require('../lib/crypt')
 // const jwt = require('../lib/jwt')
@@ -15,14 +16,15 @@ const get = async () => {
   return await User.findAll()
 }
 
-const getById = async (id) => {
-  return await User.findByPk(id)
+const getByUserId = async (id) => {
+  return await User.findAll({
+    where: { userId: id },
+    include: [{
+      model: Operation,
+      where: { userId: id }
+    }]
+  })
 }
-
-// const getByUser = async (user) => {
-//   console.log(user)
-//   return await User.model.findOne(user).exec()
-// }
 
 // const authenticate = async (user, password) => {
 //   const hash = user.password
@@ -51,5 +53,5 @@ const getById = async (id) => {
 module.exports = {
   create,
   get,
-  getById
+  getByUserId
 }
