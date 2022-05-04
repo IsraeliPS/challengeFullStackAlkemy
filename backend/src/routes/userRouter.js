@@ -38,7 +38,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params
-    const userData = await user.getById(id)
+    const userData = await user.getByUserId(id)
     res.status(200).json({
       success: true,
       payload: userData
