@@ -1,0 +1,33 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .form-floating {
+        width: 100%;
+    }
+    input {
+        border-radius: 8px;
+        // background-color: $blue-400;
+        border: none;
+        width: 100%;
+        &:focus {
+            // background-color: $blue-400;
+        }
+    }
+    label, p {
+        // color: $gray-600;
+    }
+}
+
+// inputs generals
+.form-floating {
+    input, textarea {
+        border-radius: 8px;
+        // background-color: $blue-400;
+        border: none;
+        width: 100%;
+        &:focus {
+            // background-color: $blue-400;
+        }
+    }
+}
