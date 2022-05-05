@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
-import { useForm } from 'react-hook-form'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form';
 
-export const FormLoginRegister = () => {
+export const FormRegister = () => {
     const [isShowPassword, setIsShowPassword] = useState(false)
     
     const { register, handleSubmit, formState: { errors },reset } = useForm();
@@ -22,12 +22,20 @@ export const FormLoginRegister = () => {
         document.querySelectorAll('.floatingPassword').forEach(input => { input.type = 'password' })
         document.querySelectorAll('.show-password').forEach(p => { p.textContent = 'Mostrar' })
       }
-
   return (
     <>
         <form className='form' onSubmit={handleSubmit(onSubmit)}>
             <div className='form-floating mb-3'>
-                
+                <input
+                    placeholder="Nombre"
+                    className='form-control'
+                    type="text"
+                    {...register("firstName", { required: true, maxLength: 30 })}
+                />
+                <label>Nombre</label>
+                {errors.firstName && <span className='password-checks error' role="alert">{errors.firstName.message}</span>}
+            </div>
+            <div className='form-floating mb-3'>                
                 <input
                     placeholder="youremail@mail.com"
                     className='form-control'
@@ -41,7 +49,7 @@ export const FormLoginRegister = () => {
                     })}
                 />
                 <label htmlFor="email">Correo electrónico</label>
-                {errors.email && <span role="alert">{errors.email.message}</span>}
+                {errors.email && <span className='password-checks error' role="alert">{errors.email.message}</span>}
             </div>
             <div className='form-floating mb-3'>
                 
@@ -59,10 +67,11 @@ export const FormLoginRegister = () => {
                     type="password"
                 />
                 <label htmlFor="password">Contraseña</label>
-                {errors.password && <span role="alert">{errors.password.message}</span>}
+                {errors.password && <span className='password-checks error' role="alert">{errors.password.message}</span>}
             </div>
-            <button type="submit">SUBMIT</button>
+            <button type="submit" className='btn'>Registrarme</button>
         </form>
+       
     </>
   )
 }

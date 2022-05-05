@@ -1,8 +1,10 @@
 import React from 'react'
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
 
-import { LoginScreen } from '../components/login/LoginScreen'
-import { DashboardRoutes } from './DashboardRoutes'
+import { LoginScreen } from '../pages/LoginScreen'
+import { OperationScreen } from '../pages/OperationScreen'
+import { RegisterScreen } from '../pages/RegisterScreen'
+// import { DashboardRoutes } from './DashboardRoutes'
 
 import { PrivateRoute } from './PrivateRoute'
 import { PublicRoute } from './PublicRoute'
@@ -12,20 +14,27 @@ export const AppRouter = () => {
     <BrowserRouter>
       <Routes>
         <Route
-          path='/login' element={
+          path='/*' element={
             <PublicRoute>
               <LoginScreen />
             </PublicRoute>
           }
         />
+        <Route
+          path='/register' element={
+            <PublicRoute>
+              <RegisterScreen />
+            </PublicRoute>
+          }
+        />
 
-        {/* <Route
-          path='/*' element={
+        <Route
+          path='/operation' element={
             <PrivateRoute>
-              <DashboardRoutes />
+              <OperationScreen />
             </PrivateRoute>
         }
-        /> */}
+        />
       </Routes>
     </BrowserRouter>
   )

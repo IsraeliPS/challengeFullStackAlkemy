@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { AppRouter } from './routers/AppRouter'
+// import { AppRouter } from './routers/AppRouter'
 import { AuthContext } from './auth/authContext'
+import { OperationScreen } from './pages/OperationScreen'
 
 
 // import { authReducer } from './auth/authReducer'
@@ -25,7 +26,8 @@ export const ChallengeApp = () => {
       setUserAuth
     }}
     >
-      <AppRouter />
+      {/* <AppRouter /> */}
+      <OperationScreen />
     </AuthContext.Provider>
   )
 }
