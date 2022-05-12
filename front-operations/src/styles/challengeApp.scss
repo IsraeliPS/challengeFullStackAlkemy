@@ -1,12 +1,16 @@
+// abstract
 @import "./abstract/variables";
 @import "./abstract/utilities";
 @import "./abstract/mixins";
 
-
-// components
+// elements
 @import "./components/forms";
 @import "./components/button";
+@import "./components/table";
 
 // pages
 @import "./pages/login";
-@import "./pages/operationScreen";
+
+// components
+@import "../components/operations/listOperation.module";
+@import "../components/operations/itemsOperation.module";

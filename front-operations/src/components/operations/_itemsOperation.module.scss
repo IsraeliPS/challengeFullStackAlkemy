@@ -1,0 +1,30 @@
+.ingress{
+    background-color: $light-success;
+    th{
+        border-radius: 3px 0 0 3px;
+    }
+    td {
+        border-radius: 0 3px 3px 0;
+    }
+}
+
+.egress{
+    background-color: $light-error;
+    th{
+        border-radius: 3px 0 0 3px;
+    }
+    td {
+        border-radius: 0 3px 3px 0;
+    }
+}
+
+.general{
+    background-color: $info;
+    text-shadow: 2px 1px 2px $black;
+    th{
+        border-radius: 2px 0 0 2px;
+    }
+    td {
+        border-radius: 0 2px 2px 0;
+    }
+}
