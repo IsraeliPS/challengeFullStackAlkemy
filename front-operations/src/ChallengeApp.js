@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { AuthContext } from './auth/authContext'
 import { OperationScreen } from './pages/OperationScreen'
 
-
 // import { authReducer } from './auth/authReducer'
 
 // const init = () => {
@@ -26,8 +25,11 @@ export const ChallengeApp = () => {
       setUserAuth
     }}
     >
-      {/* <AppRouter /> */}
-      <OperationScreen />
+      
+
+        {/* <AppRouter /> */}
+        <OperationScreen />
+      
     </AuthContext.Provider>
   )
 }

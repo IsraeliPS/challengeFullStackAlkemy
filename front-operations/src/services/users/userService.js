@@ -11,6 +11,7 @@ function createAccount (data) {
       mode: 'cors'
     }
     return fetch(URL, options)
+    .then(res => res.json())
   }
 
   function login (credentials) {
@@ -26,7 +27,20 @@ function createAccount (data) {
     return fetch(URL, options)
   }
 
+  function getTransactionsById (id, token) {
+    const URL = `${URL_BASE}user/${id}`
+    const options = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      mode: 'cors'
+    }
+    return fetch(URL, options)
+    .then(res => res.json())
+  }
+
   export {
     createAccount,
-    login
+    login,
+    getTransactionsById
   }

@@ -1,5 +1,5 @@
 
-const URL_BASE = process.env.PUBLIC_URL_API
+const URL_BASE = process.env.REACT_APP_PUBLIC_URL_API
 
 export {
   URL_BASE
