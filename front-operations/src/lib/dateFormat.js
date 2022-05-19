@@ -1,7 +1,7 @@
 export function dateFormat(inputDate, format) {
     const date = new Date(inputDate);
   
-    const day = date.getDate()+1;
+    const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();    
   

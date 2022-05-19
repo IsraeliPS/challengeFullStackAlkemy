@@ -3,9 +3,11 @@ import thunk from 'redux-thunk'
 
 // app-reducers
 import operationReducer, { getTransactionsAction } from './operationReducer'
+import userReducer from './userReducer'
 
 const mainReducer = combineReducers({
-  operations: operationReducer
+  operations: operationReducer,
+  user: userReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

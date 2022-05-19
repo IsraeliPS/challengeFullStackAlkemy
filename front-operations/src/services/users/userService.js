@@ -15,7 +15,7 @@ function createAccount (data) {
   }
 
   function login (credentials) {
-    const URL = `${URL_BASE}auth/login`
+    const URL = `${URL_BASE}auth`
     const options = {
       method: 'POST',
       body: JSON.stringify(credentials),
@@ -25,6 +25,7 @@ function createAccount (data) {
       mode: 'cors'
     }
     return fetch(URL, options)
+    .then(res => res.json())
   }
 
   function getTransactionsById (id, token) {

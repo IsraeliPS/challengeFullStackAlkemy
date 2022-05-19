@@ -7,19 +7,19 @@ export const Balance=({transactions}) => {
     const totalEgress=egress.reduce((total, transaction) => total + parseInt(transaction.amount), 0)
 
     const total=totalIngress-totalEgress
-
+  
     if (total>0) {
        return (
          <>
            <tr className='ingress'>
              <th colSpan='3'>Ingresos</th>
-             <td colSpan='3'>
+             <td colSpan='2'>
                <h5 >$ {totalIngress>=0?totalIngress:0}</h5>
              </td>
            </tr>
            <tr className='egress'>
              <th colSpan='3'>Gastos</th>
-             <td colSpan='3'>
+             <td colSpan='2'>
                <h5 >
                  $ {totalEgress>=0?totalEgress:0}
                </h5>
@@ -27,7 +27,7 @@ export const Balance=({transactions}) => {
            </tr>
            <tr className='general'>
              <th colSpan='3'>Balance Total</th>
-             <td colSpan='3'>
+             <td colSpan='2'>
                <h5 >$ {total}</h5>
              </td>
            </tr>
@@ -38,21 +38,21 @@ export const Balance=({transactions}) => {
          <>
            <tr className='ingress'>
              <th colSpan='3'>Ingresos</th>
-             <td colSpan='3'>
-               <h5>$ {totalIngress}</h5>
+             <td colSpan='2'>
+               <h5>$ {totalIngress>=0?totalIngress:0}</h5>
              </td>
            </tr>
            <tr className='egress'>
              <th colSpan='3'>Gastos</th>
-             <td colSpan='3'>
+             <td colSpan='2'>
                <h5>
-                 $ {totalEgress}
+                 $ {totalEgress>=0?totalEgress:0}
                </h5>
              </td>
            </tr>
            <tr className='general'>
              <th colSpan='3'>Balance Total</th>
-             <td colSpan='3'>
+             <td colSpan='2'>
                <h5>$ {total}</h5>
              </td>
            </tr>
@@ -61,12 +61,28 @@ export const Balance=({transactions}) => {
      } else {
    
        return (
-         <tr className='general'>
-           <th colSpan='3'>Balance Total</th>
-           <td colSpan='3'>
-             <h5>$ {total}</h5>
-           </td>
-         </tr>
+        <>
+          <tr className='ingress'>
+            <th colSpan='3'>Ingresos</th>
+            <td colSpan='2'>
+              <h5>$ {totalIngress>=0?totalIngress:0}</h5>
+            </td>
+          </tr>
+          <tr className='egress'>
+            <th colSpan='3'>Gastos</th>
+            <td colSpan='2'>
+              <h5>
+                $ {totalEgress>=0?totalEgress:0}
+              </h5>
+            </td>
+          </tr>
+          <tr className='general'>
+            <th colSpan='3'>Balance Total</th>
+            <td colSpan='2'>
+              <h5>$ {total}</h5>
+            </td>
+          </tr>
+        </>
          )
      }
    }
