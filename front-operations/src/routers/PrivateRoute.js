@@ -1,11 +1,15 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
-import { AuthContext } from '../auth/authContext'
+import { getToken } from '../lib/sessionStorage'
+
 
 export const PrivateRoute = ({ children }) => {
-  const { user } = useContext(AuthContext)
+   const token = JSON.parse(getToken())
+   return token
+      && children
+  // const { user } = useContext(AuthContext)
 
-  return user.logged
-    ? children
-    : <Navigate to='/login' />
+  // return user.logged
+  //   ? children
+  //   : <Navigate to='/login' />
 }

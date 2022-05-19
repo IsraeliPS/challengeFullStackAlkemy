@@ -15,7 +15,7 @@ export const LoginScreen = () => {
                         </header>
                         <div className='login__card'>
                             <h3 className='text-center mb-3 highlight'>
-                                Registrate
+                                Inicia sesión
                             </h3>
                             <div className='separator'/>
                             <section className='login__content-form'>

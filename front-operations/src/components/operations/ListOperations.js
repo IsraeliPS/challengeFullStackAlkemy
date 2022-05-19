@@ -4,18 +4,15 @@ import { connect, useSelector } from 'react-redux'
 import { ItemsOperation } from './ItemsOperation'
 import { Balance } from './totalOperations'
 
-export const ListOperations = () => {
+export const ListOperations = ({setUpdateUser}) => {
   
 const { transactions } = useSelector(state => state.operations)
-
-
 
   return (
     <>
       <table>
         <thead>
           <tr>
-            <th>Id</th>
             <th>Concepto</th>
             <th>Cantidad</th>
             <th>Fecha</th>
@@ -29,7 +26,8 @@ const { transactions } = useSelector(state => state.operations)
             transactions.map(data=>(
               <ItemsOperation 
               key={data.operationId}
-              {...data}/>
+              {...data}
+              setUpdateUser={setUpdateUser}/>
             ))
           }
         </tbody>

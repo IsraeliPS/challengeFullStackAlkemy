@@ -1,13 +1,8 @@
-import React, { useContext } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { AuthContext } from '../../auth/authContext'
-
+import React from 'react'
+// import { Link, NavLink } from 'react-router-dom'
 
 export const Navbar = () => {
-  const { user, userAuth  } = useContext(AuthContext)
-
   const handleLogout = () => {
-
     // navigate('/login', {
     //   replace: true
     // })
@@ -16,32 +11,14 @@ export const Navbar = () => {
   return (
     <nav className='navbar navbar-expand-sm navbar-dark bg-dark'>
 
-      <Link
-        className='navbar-brand'
-        to='/'
-      >
-        Asociaciones
-      </Link>
-
-      {/* <div className='navbar-collapse'>
-        <div className='navbar-nav'>
-
-          <NavLink
-            className={({ isActive }) => 'nav-item nav-link' + (isActive && 'active')}
-            to='/search'
-          >
-            Search
-          </NavLink>
-        </div>
-      </div> */}
-
       <div className='navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end'>
         <ul className='navbar-nav ml-auto'>
           <span className='nav-item nav-link text-info'>
-            {user?.name}
+            {/* {user?.name} */}
+            holis
           </span>
-          <button
-            className='nav-item nav-link btn'
+          <button 
+            className='nav-item nav-link btn btn-logout'
             onClick={handleLogout}
           >
             Logout

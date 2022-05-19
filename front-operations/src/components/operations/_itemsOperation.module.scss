@@ -1,5 +1,7 @@
 .ingress{
-    background-color: $light-success;
+    background: linear-gradient(to bottom, $light-success, rgba(0,0,0,0.3));
+    
+
     th{
         border-radius: 3px 0 0 3px;
     }
@@ -9,7 +11,7 @@
 }
 
 .egress{
-    background-color: $light-error;
+    background: linear-gradient(to bottom, $light-error, rgba(0,0,0,0.3));
     th{
         border-radius: 3px 0 0 3px;
     }

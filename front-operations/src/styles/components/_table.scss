@@ -3,14 +3,23 @@
 table {
     table-layout: fixed;
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: collapse;    
     text-align: center;
-    
+    font-size: small;
+    h5{
+        font-size: 16px;
+    }
+    @include responsive($medium) {
+      font-size: 16px;
+      h5{
+        font-size: 20px;
+      }
+  }
   }
   
-  thead th:nth-child(1) {
-    width: 10%;
-  }
+  // thead th:nth-child(1) {
+  //   width: 10%;
+  // }
   
   // thead th:nth-child(2) {
   //   width: 30%;
@@ -24,9 +33,6 @@ table {
   //   width: 35%;
   // }
   // thead th:nth-child(5) {
-  //   width: 20%;
-  // }
-   // thead th:nth-child(6) {
   //   width: 20%;
   // }
   th, td {

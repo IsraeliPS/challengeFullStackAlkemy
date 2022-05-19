@@ -1,32 +1,26 @@
 // import React, { useContext, useState } from 'react'
-import React from 'react';
+import React, { useState } from 'react';
 
-// import { AuthContext } from '../auth/authContext'
 import { AddOperations } from '../components/operations/AddOperations'
 import { ListOperations } from '../components/operations/ListOperations'
-// import { Navbar } from '../components/navbar/Navbar'
-// import { getTransactionsById } from '../services/users/userService'
-import {getTransactionsAction} from '../reducers/operationReducer'
-import { connect } from 'react-redux';
 
-export const OperationScreen = ({ getTransactionsAction }) => {
-  // const { user } = useContext(AuthContext)
-  // const [operation, setOperation] = useState({})
-  // const [state, dispatch] = useReducer(reducer, initialState);
+import { Navbar } from '../components/navbar/Navbar'
+
+export const OperationScreen = () => {
+  const [updateUser, setUpdateUser] = useState({})
+  
 
   return (
     <>
-      {/* <Navbar /> */}
-      <h1>OperationScreen</h1>
-      <div className='container'>
+      <Navbar />
+      
+      <div className='container mt-5'>
         <div className='row listOperations'>
           <div className='col-3'>
-            {/* <AddOperations state={state} dispatch={dispatch}/> */}
-            <AddOperations />
+            <AddOperations updateUser={updateUser} setUpdateUser={setUpdateUser}/>
           </div>
           <div className='col-9'>
-            {/* <ListOperations state={state} dispatch={dispatch} operation={operation}/> */}
-            <ListOperations />
+            <ListOperations setUpdateUser={setUpdateUser}/>
           </div>
         </div>
       </div>
@@ -34,10 +28,3 @@ export const OperationScreen = ({ getTransactionsAction }) => {
   )
 }
 
-const mapStateToProps=(state) =>{
-  return {
-    transactions: state.transactions
-  }
-}
-
-export default connect(mapStateToProps, {getTransactionsAction})(OperationScreen)

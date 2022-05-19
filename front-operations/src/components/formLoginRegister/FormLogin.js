@@ -1,14 +1,18 @@
 import React, {useState} from 'react'
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../../reducers/userReducer';
 
 export const FormLogin = () => {
     const [isShowPassword, setIsShowPassword] = useState(false)
     
     const { register, handleSubmit, formState: { errors },reset } = useForm();
 
-    const onSubmit = async (dataToSend) => {
-        
-        // await login(data.email, data.password)
+    const dispatch = useDispatch()
+
+    const onSubmit = async (data,e) => {
+        e.preventDefault()
+        dispatch(loginAction(data))
         reset()
     }
 
