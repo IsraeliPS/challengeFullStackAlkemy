@@ -23,6 +23,7 @@ router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params
     const operationData = await operation.IngressEgress(id)
+    console.log(operationData)
     res.status(200).json({
       success: true,
       payload: operationData
@@ -33,11 +34,10 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.patch('/:id', async (req, res, next) => {
+router.patch('/', async (req, res, next) => {
   try {
-    const { id } = req.params
     const operationData = req.body
-    await operation.update(id, operationData)
+    await operation.update(operationData)
     res.status(200).json({
       success: true,
       message: 'Operation Updated successfully'
@@ -48,10 +48,11 @@ router.patch('/:id', async (req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/', async (req, res, next) => {
   try {
-    const { id } = req.params
-    await operation.deleteOp(id)
+    const { userId, operationId }= req.body
+    
+    await operation.deleteOp(userId, operationId)
     res.status(200).json({
       success: true,
       message: 'Operation Deleted successfully'

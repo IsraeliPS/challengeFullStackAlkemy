@@ -2,8 +2,9 @@ const { User } = require('../lib/db')
 const { Operation } = require('../lib/db')
 
 const create = async (dataOperation) => {
-  const { concept, amount, typeOperation, dateOperation, userId } = dataOperation
-  const operation = await Operation.create({ concept, amount, dateOperation, typeOperation, userId })
+  console.log(dataOperation)
+  const { concept, amount, typeOperation, date, userId } = dataOperation
+  const operation = await Operation.create({ concept, amount, dateOperation:date, typeOperation, userId })
   return operation
 }
 
@@ -18,28 +19,27 @@ const IngressEgress = async (id) => {
   return { ingress, valueIngress, egress, valueEgress }
 }
 
-const update = async (idUser, idOperation, dataOperation) => {
-  const { concept, amount, dateOperation, typeOperation, userId } = dataOperation
+const update = async (dataOperation) => {
+  const { concept, amount, dateOperation, typeOperation, userId, operationId } = dataOperation
   const operation = await Operation.update(
     { concept, amount, dateOperation, typeOperation, userId },
     {
-      where: { idOperation },
+      where: { operationId },
       include: [{
         model: User,
-        where: { idUser }
+        where: { userId }
       }]
     })
   return operation
 }
 
-const deleteOp = async (idUser, idOperation) => {
+const deleteOp = async (userId, operationId) => {
   return await Operation.destroy({
-    where: { idOperation },
+    where: { operationId },
     include: [{
       model: User,
-      where: { idUser }
+      where: { userId }
     }]
-
   })
 }
 
