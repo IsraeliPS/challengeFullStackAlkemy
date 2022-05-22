@@ -1,11 +1,22 @@
-import React from 'react'
-// import { Link, NavLink } from 'react-router-dom'
+import React, { useContext } from 'react'
+// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import AuthenticateContext from '../../context/AuthenticateContext';
+
+import { deleteToken } from '../../lib/sessionStorage';
+import { logoutAction } from '../../reducers/operationReducer';
 
 export const Navbar = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const { userAuth } = useContext(AuthenticateContext);
+
   const handleLogout = () => {
-    // navigate('/login', {
-    //   replace: true
-    // })
+    deleteToken()
+    dispatch(logoutAction())
+    navigate('/login', { replace: true });
   }
 
   return (
@@ -14,14 +25,13 @@ export const Navbar = () => {
       <div className='navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end'>
         <ul className='navbar-nav ml-auto'>
           <span className='nav-item nav-link text-info'>
-            {/* {user?.name} */}
-            holis
+            Bienvenid@ {userAuth.name} !!!
           </span>
           <button 
             className='nav-item nav-link btn btn-logout'
             onClick={handleLogout}
           >
-            Logout
+            Cerrar sesión
           </button>
         </ul>
       </div>

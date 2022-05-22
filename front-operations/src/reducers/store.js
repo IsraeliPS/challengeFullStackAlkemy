@@ -2,12 +2,10 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 
 // app-reducers
-import operationReducer, { getTransactionsAction } from './operationReducer'
-import userReducer from './userReducer'
+import operationReducer from './operationReducer'
 
 const mainReducer = combineReducers({
-  operations: operationReducer,
-  user: userReducer
+  operations: operationReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -17,7 +15,5 @@ export const generateStore=()=>{
     mainReducer,
     composeEnhancers(applyMiddleware(thunk)
     ))
-    
-    getTransactionsAction()(store.dispatch, store.getState)
     return store
  }

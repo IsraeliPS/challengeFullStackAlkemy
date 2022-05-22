@@ -1,15 +1,23 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { registerAction } from '../../reducers/userReducer';
 
 export const FormRegister = () => {
     const [isShowPassword, setIsShowPassword] = useState(false)
     
     const { register, handleSubmit, formState: { errors },reset } = useForm();
 
-    const onSubmit = async (dataToSend) => {
+    const navigate=useNavigate()
+    const onSubmit = async (data) => {
         
-        // await login(data.email, data.password)
+        const resp=await registerAction(data)
         reset()
+        if (resp?.success) {
+            navigate('/login', { replace: true });
+        } else {
+            console.log(resp.message)
+        }
     }
 
     const handleClickShowPassword = (nameClass) => {
@@ -30,10 +38,10 @@ export const FormRegister = () => {
                     placeholder="Nombre"
                     className='form-control'
                     type="text"
-                    {...register("firstName", { required: true, maxLength: 30 })}
+                    {...register("name", { required: true, maxLength: 30 })}
                 />
                 <label>Nombre</label>
-                {errors.firstName && <span className='password-checks error' role="alert">{errors.firstName.message}</span>}
+                {errors.name && <span className='password-checks error' role="alert">{errors.name.message}</span>}
             </div>
             <div className='form-floating mb-3'>                
                 <input

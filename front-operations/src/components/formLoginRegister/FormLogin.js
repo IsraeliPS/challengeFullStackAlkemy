@@ -1,22 +1,46 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux';
-import { loginAction } from '../../reducers/userReducer';
 
-export const FormLogin = () => {
+import { useNavigate } from 'react-router-dom';
+import AuthenticateContext from '../../context/AuthenticateContext';
+import { setToken } from '../../lib/sessionStorage';
+import { login } from '../../services/users/userService';
+
+export const FormLogin = ({setError}) => {
     const [isShowPassword, setIsShowPassword] = useState(false)
+    
     
     const { register, handleSubmit, formState: { errors },reset } = useForm();
 
-    const dispatch = useDispatch()
+    const navigate=useNavigate()
+    const { userAuth, setUserAuth } = useContext(AuthenticateContext);
+
 
     const onSubmit = async (data,e) => {
         e.preventDefault()
-        dispatch(loginAction(data))
-        reset()
+        
+        try {
+            login(data).then((res) => {
+                if (res.success) {
+                    setUserAuth({
+                        ...userAuth,
+                        payload: res.payload.userId,
+                        name: res.payload.name
+                    })
+                    setToken(res.payload.token);
+                    reset()
+                    navigate('/operation', { replace: true });
+                } else {
+                    const error='Login Failed, user or password incorrect'
+                    setError(error)
+                }
+            })
+        } catch (e) {
+            console.log('error de login',e)
+        }
     }
 
-    const handleClickShowPassword = (nameClass) => {
+    const handleClickShowPassword = () => {
         setIsShowPassword(!isShowPassword)
         if (isShowPassword) {
           document.querySelectorAll('.floatingPassword').forEach(input => { input.type = 'text' })
@@ -39,7 +63,7 @@ export const FormLogin = () => {
                         required: "El correo electrónico es obligatorio",
                         pattern: {
                         value: /\S+@\S+\.\S+/,
-                        message: "Entered value does not match email format"
+                        message: "El correo electrónico no es válido"
                         }
                     })}
                 />
@@ -56,7 +80,7 @@ export const FormLogin = () => {
                     required: "La contraseña es obligatoria",
                     minLength: {
                         value: 6,
-                        message: "min length is 6"
+                        message: "La contraseña debe tener al menos 6 caracteres"
                     }
                     })}
                     type="password"
