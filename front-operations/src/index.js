@@ -9,13 +9,16 @@ import { ChallengeApp } from './ChallengeApp';
 import { generateStore } from './reducers/store';
 
 import './styles/challengeApp.scss'
+import { AuthenticateProvider } from './context/AuthenticateContext';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={generateStore()}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
-            <ChallengeApp />
-        </MuiPickersUtilsProvider>
+        <AuthenticateProvider>
+            <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
+                <ChallengeApp />
+            </MuiPickersUtilsProvider>
+        </AuthenticateProvider>
     </Provider>
 );

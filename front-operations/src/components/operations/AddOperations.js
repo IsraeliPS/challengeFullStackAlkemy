@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { DatePicker } from "@material-ui/pickers";
 
 import { useDispatch, useSelector } from "react-redux";
-import { createTransactionAction, updateCanceledAction, updateSaveTransactionAction } from "../../reducers/operationReducer";
+import { createTransactionAction, setTotalOperationsAction, updateCanceledAction, updateSaveTransactionAction } from "../../reducers/operationReducer";
+import { getToken } from "../../lib/sessionStorage";
+import AuthenticateContext from "../../context/AuthenticateContext";
+
 
 export const AddOperations = ({updateUser, setUpdateUser}) => {
   const [dateOperation, setDateOperation] = useState(new Date());
-
+  
+  const token=getToken()
+  const dispatch = useDispatch()
+  
+  const { userAuth } = useContext(AuthenticateContext);
+  const {payload:userId }=userAuth
   
   const {updating}= useSelector(state=>state.operations)
   const state= useSelector(state=>state.operations)
-  const dispatch = useDispatch();
   
   const {
     setValue,
@@ -46,8 +53,6 @@ export const AddOperations = ({updateUser, setUpdateUser}) => {
     setDateOperation(value || new Date());
   }, [setDateOperation, value]);
 
-
-
   const onSubmit = (data, e ) => {
     e.preventDefault();
     
@@ -56,17 +61,22 @@ export const AddOperations = ({updateUser, setUpdateUser}) => {
     }
 
     if (updateUser.operationId) {
+      
       data={...data,
         date:dateOperation,
-        userId:'1',
+        userId:userId,
         operationId:updateUser.operationId}
-      dispatch(updateSaveTransactionAction(data));
+      
+        
+      dispatch(updateSaveTransactionAction(data,token));
       setUpdateUser({});
 
     } else {
       
-      data={...data,date:dateOperation,userId:'1'}
-      dispatch(createTransactionAction(data));    
+      data={...data,date:dateOperation,userId}
+      const count=state.transactions.length
+      dispatch(createTransactionAction(data, count, token));
+      dispatch(setTotalOperationsAction(userId))
     }
     reset();
   };
@@ -87,11 +97,12 @@ export const AddOperations = ({updateUser, setUpdateUser}) => {
             type="text"
             {...register("concept", {
               required: "El concepto es obligatorio",
+              minLength: {value: 3, message: "El concepto debe tener al menos 3 caracteres"}
             })}
           />
           <label htmlFor="concept">Concepto</label>
           {errors.concept && (
-            <span className="password-checks error" role="alert">
+            <span className="input-checks-error" role="alert">
               {errors.concept.message}
             </span>
           )}
@@ -103,11 +114,14 @@ export const AddOperations = ({updateUser, setUpdateUser}) => {
             type="text"
             {...register("amount", {
               required: "El monto obligatorio",
+              minLength: {value: 1, message: "El monto debe tener al menos 1 número "},
+              pattern: { value: /^[0-9]+\.?[0-9]*$/i, message: 'Solo se admiten números' }
+              
             })}
           />
           <label htmlFor="amount">Monto</label>
           {errors.amount && (
-            <span className="password-checks error" role="alert">
+            <span className="input-checks-error" role="alert">
               {errors.amount.message}
             </span>
           )}
@@ -126,7 +140,7 @@ export const AddOperations = ({updateUser, setUpdateUser}) => {
           />
         </div>
         {
-          updateUser.operationId 
+          updating && updateUser?.operationId 
           ? (
             <div className="form-floating mb-3">
               <select className="ml-2" {...register("typeOperation") } disabled>
@@ -156,7 +170,7 @@ export const AddOperations = ({updateUser, setUpdateUser}) => {
 
         
         {
-          updateUser.operationId 
+          updating && updateUser?.operationId 
           ? 
           (
             <>

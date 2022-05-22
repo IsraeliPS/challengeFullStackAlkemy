@@ -1,19 +1,6 @@
 import { URL_BASE } from "../config";
 
-const createTransaction=async (data)=> {
-  const URL = `${URL_BASE}operation`;
-  const options = {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    mode: "cors",
-  };
-  return fetch(URL, options).then((response) => response.json());
-}
-
-const getTransactions=async (id, token) =>{
+const getTransactions=async (id) =>{
   const URL = `${URL_BASE}user/${id}`;
   const options = {
     headers: {
@@ -25,17 +12,35 @@ const getTransactions=async (id, token) =>{
   .then((res) => res.json())
 }
 
-const updateTransaction=async (data)=> {
+const createTransaction=async (data,token)=> {
+  const URL = `${URL_BASE}operation`;
+  const options = {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      'authorization': token
+    },
+    mode: "cors",
+  };
+  return await fetch(URL, options)
+  .then((res) => res.json())
+  
+}
+
+const updateTransaction=async (data,token)=> {
   const URL = `${URL_BASE}operation`;
   const options = {
     method: "PATCH",
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
+      'authorization': token
     },
     mode: "cors",
   }
-  return fetch(URL, options).then((response) => response.json());
+  return await fetch(URL, options)
+  .then((response) => response.json());
 }
 
 const deleteTransaction=async (userId, operationId, token) =>{
@@ -44,7 +49,8 @@ const deleteTransaction=async (userId, operationId, token) =>{
   const options = {
     method: "DELETE",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      'authorization': token
     },
     body:JSON.stringify({
       userId,
@@ -56,51 +62,17 @@ const deleteTransaction=async (userId, operationId, token) =>{
   .then((res) => res.json())
 }
 
-export { createTransaction, getTransactions, updateTransaction, deleteTransaction };
+const getTotalOperations=async (id) =>{
+  const URL = `${URL_BASE}operation/${id}`;
+  const options = {
+    headers: {
+      "Content-Type": "application/json",
+    },
 
-//   import { URL_BASE } from '../config'
+    mode: "cors",
+  };
+  return await fetch(URL, options)
+  .then((res) => res.json())
+}
 
-// function createAccount (data) {
-//   const URL = `${URL_BASE}dealers`
-//   const options = {
-//     method: 'POST',
-//     body: JSON.stringify(data),
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     mode: 'cors'
-//   }
-//   return fetch(URL, options)
-// }
-
-// function updateById (idUser, newData, token) {
-//   const URL = `${URL_BASE}dealers/${idUser}`
-//   const options = {
-//     method: 'PATCH',
-//     body: newData,
-//     headers: {
-//       Authorization: token,
-//       mode: 'cors'
-//     }
-//   }
-//   return fetch(URL, options)
-// }
-// function updateId (idUser, newData, token) {
-//   const URL = `${URL_BASE}dealers/update/${idUser}`
-//   const options = {
-//     method: 'PATCH',
-//     body: newData,
-//     headers: {
-//       Authorization: token,
-//       mode: 'cors'
-//     }
-//   }
-//   return fetch(URL, options)
-// }
-
-// export {
-//   createAccount,
-//   getDataDelivery,
-//   updateById,
-//   updateId
-// }
+export { createTransaction, getTransactions, updateTransaction, deleteTransaction, getTotalOperations };

@@ -17,7 +17,22 @@
     }
     td {
         border-radius: 0 3px 3px 0;
+        align-items: center;
     }
+}
+
+.total{
+    background: linear-gradient(to bottom, $light-warning, rgba(0,0,0,0.3));
+    font-size: 12px;
+    td{
+        padding: 0;
+    }
+    p{
+        
+        font-size: 12px;
+        margin-bottom: 0;
+    }
+    
 }
 
 .general{

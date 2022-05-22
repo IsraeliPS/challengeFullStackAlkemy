@@ -1,7 +1,8 @@
-import { createTransaction, deleteTransaction, getTransactions, updateTransaction } from '../services/operations/operationServices'
+import { createTransaction, deleteTransaction, getTotalOperations, getTransactions, updateTransaction } from '../services/operations/operationServices'
 
 const initialState = {
     transactions: [],
+    results:[],
     loading: false,
     fetching: false,
     updating: false,
@@ -16,6 +17,7 @@ const GET_TRANSACTIONS_FAILURE = 'GET_TRANSACTIONS_FAILURE'
 
 const CREATE_TRANSACTION = 'CREATE_TRANSACTION'
 const CREATE_TRANSACTION_SUCCESS = 'CREATE_TRANSACTION_SUCCESS'
+
 const CREATE_TRANSACTION_FAILURE = 'CREATE_TRANSACTION_FAILURE'
 
 const UPDATE_TRANSACTION = 'UPDATE_TRANSACTION'
@@ -28,6 +30,10 @@ const UPDATE_SAVE_TRANSACTION_FAILURE = 'UPDATE_TRANSACTION_FAILURE'
 const DELETE_TRANSACTION = 'DELETE_TRANSACTION'
 const DELETE_TRANSACTION_SUCCESS = 'DELETE_TRANSACTION_SUCCESS'
 const DELETE_TRANSACTION_FAILURE = 'DELETE_TRANSACTION_FAILURE'
+
+const SET_TOTAL_OPERATIONS = 'SET_TOTAL_OPERATIONS'
+
+const LOGOUT = 'LOGOUT'
 
 // Reducer
 export default function reducer (state = initialState, action) {
@@ -121,17 +127,27 @@ export default function reducer (state = initialState, action) {
                 loading: false,
                 error: action.payload
             }
+        case SET_TOTAL_OPERATIONS:
+            return {
+                ...state,
+                results: action.payload
+            }
+        case LOGOUT:
+            return {
+                ...initialState
+            }
         default:
             return state
     }
 }
 
 // Action creators
-export const getTransactionsAction = () => {
+export const getTransactionsAction = (userId) => {
     return dispatch => {
         dispatch({ type: GET_TRANSACTIONS })
+        
         try {
-            getTransactions(1,'token')
+            getTransactions(userId)
             .then(res =>{
                 let oper=[]
                 res.payload.map (user => user.operations.map(operation => {
@@ -157,15 +173,15 @@ export const getTransactionsAction = () => {
     }
 }
 
-export const createTransactionAction = (data) => {
+export const createTransactionAction = (data, count, token) => {
     return dispatch => {
         dispatch({ type: CREATE_TRANSACTION })
         try {
-            createTransaction(data,'token')
+            createTransaction(data,token)
             .then(res =>{
-                dispatch({
+                dispatch({ 
                     type: CREATE_TRANSACTION_SUCCESS,
-                    payload: res.payload
+                        payload: res.payload
                 })
             })
             .catch(err => {
@@ -199,7 +215,7 @@ export const updateCanceledAction = () => {
     }
 }
 
-export const updateSaveTransactionAction = (data) => {
+export const updateSaveTransactionAction = (data,token) => {
     return (dispatch, getState) => {
         dispatch({ type: UPDATE_SAVE_TRANSACTION })
         const dataState=getState().operations.transactions
@@ -209,7 +225,7 @@ export const updateSaveTransactionAction = (data) => {
         const newData=[...dataFilter,{operationId, concept, amount, typeOperation, userId, dateOperation:date}]
         
         try {
-            updateTransaction(data,'token')
+            updateTransaction(data,token)
             .then(res =>{
                 dispatch({
                     type: UPDATE_SAVE_TRANSACTION_SUCCESS,
@@ -230,14 +246,14 @@ export const updateSaveTransactionAction = (data) => {
     }
 }
 
-export const deleteTransactionAction = (userId, operationId) => {
+export const deleteTransactionAction = (userId, operationId,token) => {
     return (dispatch,getState) => {
         dispatch({ type: DELETE_TRANSACTION })
         try {
             const data = getState()
             const valueFilter=data.operations.transactions.filter(transaction => transaction.operationId !== operationId)
 
-            deleteTransaction(userId, operationId,'token')
+            deleteTransaction(userId, operationId,token)
             .then(res =>{
                 dispatch({
                     type: DELETE_TRANSACTION_SUCCESS,
@@ -254,5 +270,34 @@ export const deleteTransactionAction = (userId, operationId) => {
         } catch (error) {
             console.log('operationReducer',error)
         }
+    }
+}
+
+export const setTotalOperationsAction = (id) => {
+    return dispatch => {
+        try {
+            getTotalOperations(id)
+            .then(res =>{
+                dispatch({ 
+                    type: SET_TOTAL_OPERATIONS,
+                    payload: res.payload
+                })
+            })
+            .catch(err => {
+                console.log(err)
+                dispatch({
+                    type: SET_TOTAL_OPERATIONS,
+                    payload: err
+                })
+            })
+        } catch (error) {
+            console.log('operationReducer',error)
+        }
+    }
+}
+
+export const logoutAction = () => {
+    return {
+        type: LOGOUT
     }
 }
