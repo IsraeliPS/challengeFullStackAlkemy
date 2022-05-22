@@ -3,32 +3,9 @@ import React, { useState } from 'react'
 import { Link  } from 'react-router-dom'
 import { FormLogin } from '../components/formLoginRegister/FormLogin'
 
-// import { getToken } from '../lib/sessionStorage';
-
 export const LoginScreen = () => {
 
     const [error, setError] = useState('')
-
-    // const navigate = useNavigate();
-    // const [LoggedIn, setLoggedIn] = useState('')
-    // const key=getToken()
-
-    // useMemo(()=>{
-    //   if(key){
-    //     setLoggedIn(key)
-    //     return true
-    //   }
-    //   // eslint-disable-next-line
-    // },[])
-  
-    // useEffect(() => {
-    //   if (LoggedIn){
-    //       return navigate('/operation', { replace: true });
-    //   }
-    //   // eslint-disable-next-line
-    // },[LoggedIn]);
-  
-    
 
     return (
         <>
