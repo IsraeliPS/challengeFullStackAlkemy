@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect, useSelector } from 'react-redux'
-// import { invertArray } from '../../lib/invertArray'
+
 
 import { ItemsOperation } from './ItemsOperation'
 import { TotalOperations } from './TotalOperations'

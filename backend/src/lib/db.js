@@ -23,6 +23,7 @@ Operation.belongsTo(User, { foreignKey: 'userId' })
 sequelize.sync()
   .then(() => {
     console.log('Tables created successfully')
+    console.log('*------------------------------------------*')
   })
   .catch(err => {
     console.log(err)

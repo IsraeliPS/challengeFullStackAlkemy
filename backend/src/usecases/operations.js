@@ -2,7 +2,6 @@ const { User } = require('../lib/db')
 const { Operation } = require('../lib/db')
 
 const create = async (dataOperation) => {
-  console.log(dataOperation)
   const { concept, amount, typeOperation, date, userId } = dataOperation
   const operation = await Operation.create({ concept, amount, dateOperation:date, typeOperation, userId })
   return operation
@@ -16,7 +15,8 @@ const IngressEgress = async (id) => {
   const egress = dataOperations.filter(operation => operation.typeOperation === 'egress')
   const valueEgress = egress.reduce((total, operation) => total + parseFloat(operation.amount), 0)
 
-  return { ingress, valueIngress, egress, valueEgress }
+  const count = dataOperations.length
+  return { ingress, valueIngress, egress, valueEgress, count }
 }
 
 const update = async (dataOperation) => {
@@ -33,7 +33,8 @@ const update = async (dataOperation) => {
   return operation
 }
 
-const deleteOp = async (userId, operationId) => {
+const deleteOp = async (data) => {
+  const { userId, operationId }=data
   return await Operation.destroy({
     where: { operationId },
     include: [{
