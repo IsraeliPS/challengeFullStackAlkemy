@@ -1,19 +1,22 @@
 const { User } = require('../lib/db')
 const { Operation } = require('../lib/db')
+const jwt = require('../lib/jwt')
 
-const encrypt = require('../lib/crypt')
-// const jwt = require('../lib/jwt')
+
+const {hashPassword, verifyPassword} = require('../lib/crypt')
 
 const create = async (dataUser) => {
   const { name, email, password } = dataUser
-  const hash = await encrypt.hashPassword(password)
+  const hash = await hashPassword(password)
   const user = await User.create({ name, email, password: hash })
 
   return user
 }
 
 const get = async () => {
-  return await User.findAll()
+  return await User.findAll({
+    limit: 10
+  })
 }
 
 const getByUserId = async (id) => {
@@ -21,37 +24,48 @@ const getByUserId = async (id) => {
     where: { userId: id },
     include: [{
       model: Operation,
-      where: { userId: id }
-    }]
+      where: { userId: id },
+      order: [['createdAt', 'DESC']],
+      limit:10
+    }],
+    
   })
 }
 
-// const authenticate = async (user, password) => {
-//   const hash = user.password
-//   return await encrypt.verifyPassword(password, hash)
-// }
+const getByEmail = async (email) => {
+  return await User.findOne({
+    where: { email: email }
+  })
+}
 
-// // Proceso LogIn de usuarios
-// const logIn = async (username, password) => {
-//   const userObject = await getByUser({ username })
-//   console.log('userOBject:', userObject)
-//   const hash = userObject.password
-//   const isValid = await encrypt.verifyPassword(password, hash)
+const logIn = async (email, password) => {
+  try{
+    const user = await getByEmail(email)
 
-//   if (isValid) {
-//     const payload = {
-//       sub: userObject._id,
-//       role: userObject.role
-//     }
-//     console.log(payload)
-//     const token = await jwt.sign(payload)
-//     return token
-//   } else {
-//     error()
-//   }
-// }
+    if(!user){
+      throw new Error('User not found')
+    }
+    const isValid = await verifyPassword(password, user.password)
+    if(!isValid){
+      throw new Error('Password invalid')
+    }
+    
+    const token = await jwt.sign({ userId: user.dataValues.userId ,name : user.dataValues.name})
+    
+    return {
+      userId:user.dataValues.userId,
+      name:user.dataValues.name,
+      token
+    }
+  }catch(error){
+    throw error
+  }  
+}
+
+
 module.exports = {
   create,
   get,
-  getByUserId
+  getByUserId,
+  logIn
 }

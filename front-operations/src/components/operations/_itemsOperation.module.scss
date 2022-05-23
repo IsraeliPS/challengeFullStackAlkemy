@@ -1,0 +1,47 @@
+.ingress{
+    background: linear-gradient(to bottom, $light-success, rgba(0,0,0,0.3));
+    
+
+    th{
+        border-radius: 3px 0 0 3px;
+    }
+    td {
+        border-radius: 0 3px 3px 0;
+    }
+}
+
+.egress{
+    background: linear-gradient(to bottom, $light-error, rgba(0,0,0,0.3));
+    th{
+        border-radius: 3px 0 0 3px;
+    }
+    td {
+        border-radius: 0 3px 3px 0;
+        align-items: center;
+    }
+}
+
+.total{
+    background: linear-gradient(to bottom, $light-warning, rgba(0,0,0,0.3));
+    font-size: 12px;
+    td{
+        padding: 0;
+    }
+    p{
+        
+        font-size: 12px;
+        margin-bottom: 0;
+    }
+    
+}
+
+.general{
+    background-color: $info;
+    text-shadow: 2px 1px 2px $black;
+    th{
+        border-radius: 2px 0 0 2px;
+    }
+    td {
+        border-radius: 0 2px 2px 0;
+    }
+}

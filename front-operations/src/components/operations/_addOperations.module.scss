@@ -1,0 +1,9 @@
+    .input-checks-error{
+        color: $hover-light-error;
+        margin-left: 8px;
+        margin-bottom: 0;
+
+        &.input-checks-error {
+            color: $hover-light-error;
+        }
+    }

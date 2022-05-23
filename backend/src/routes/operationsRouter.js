@@ -1,23 +1,8 @@
 const express = require('express')
+const auth = require('../middlewares/auth')
 const operation = require('../usecases/operations')
 
 const router = express.Router()
-
-router.post('/', async (req, res, next) => {
-  try {
-    const operationData = req.body
-    const operationCreated = await operation.create(operationData)
-    const operations = operationCreated
-    res.status(201).json({
-      success: true,
-      message: 'Operation Created successfully',
-      payload: operations
-    })
-  } catch (err) {
-    next(err)
-    console.log(err)
-  }
-})
 
 router.get('/:id', async (req, res, next) => {
   try {
@@ -33,25 +18,61 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.patch('/:id', async (req, res, next) => {
+router.post('/', auth, async (req, res, next) => {
   try {
-    const { id } = req.params
+    const {userId}=req.user
     const operationData = req.body
-    await operation.update(id, operationData)
-    res.status(200).json({
-      success: true,
-      message: 'Operation Updated successfully'
-    })
+    
+    if (userId===operationData.userId ) {
+      const operationCreated = await operation.create(operationData)
+        
+      res.status(201).json({
+        success: true,
+        message: 'Operation Created successfully',
+        payload: operationCreated
+      })
+    } else {
+      res.status(401).json({
+        success: false,
+        message: 'Unauthorized'
+      })
+    }
   } catch (err) {
     next(err)
     console.log(err)
   }
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.patch('/', auth, async (req, res, next) => {
   try {
-    const { id } = req.params
-    await operation.deleteOp(id)
+    const {userId}=req.user
+    const operationData = req.body
+
+    if (userId===operationData.userId) {
+      await operation.update(operationData)
+      res.status(200).json({
+        success: true,
+        message: 'Operation Updated successfully'
+      })
+    } else {
+      res.status(401).json({
+        success: false,
+        message: 'Unauthorized'
+      })
+    }
+
+  } catch (err) {
+    next(err)
+    console.log(err)
+  }
+})
+
+router.delete('/', auth, async (req, res, next) => {
+  try {
+    const {userId}=req.user
+    const data= req.body
+    
+    await operation.deleteOp(data)
     res.status(200).json({
       success: true,
       message: 'Operation Deleted successfully'

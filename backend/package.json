@@ -13,7 +13,8 @@
     "sequelize": "^6.19.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "standard": "^17.0.0"
   },
   "scripts": {
     "dev": "nodemon index.js"
